@@ -18,13 +18,7 @@ export class EmpleadosComponent implements OnInit {
       ape1 : new FormControl("", Validators.required),
       ape2 : new FormControl("", Validators.required),
       phone: new FormControl("", Validators.required),
-      sueldo: new FormControl("", Validators.required),
-      calle :new FormControl("", Validators.required),
-      noExt : new FormControl("", Validators.required),
-      noInt: new FormControl("", Validators.required),
-      estado: new FormControl(null, Validators.required),
-      municipio : new FormControl(null, Validators.required),
-      tipo_direccion: new FormControl("", Validators.required)
+      sueldo: new FormControl("", Validators.required)
     })
   }
   ngOnInit(): void {

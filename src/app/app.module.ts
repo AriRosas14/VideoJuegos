@@ -10,26 +10,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { InicioComponent } from './inicio/inicio.component';
-import { ClientesComponent } from './clientes/clientes.component';
 import { ProductosComponent } from './productos/productos.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { VentaComponent } from './venta/venta.component';
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { CarritoComponent } from './carrito/carrito.component';
+import { RegistrosComponent } from './registros/registros.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     InicioComponent,
-    ClientesComponent,
     ProductosComponent,
     NavBarComponent,
-    ProveedoresComponent,
     VentaComponent,
     EmpleadosComponent,
-    CarritoComponent
+    CarritoComponent,
+    RegistrosComponent
   ],
   imports: [
     BrowserModule,
