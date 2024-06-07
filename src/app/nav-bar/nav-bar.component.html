@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLinkActive="active" [routerLink]="['inicio']">
+        <img src="../../assets/imgs/logo.jpeg" alt="Avatar Logo" style="width:80px;" class="rounded-pill"> 
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <ul class="navbar-nav">
+                <li class="nav-item" routerLinkActive="active">
+                  <a class="nav-link"  [routerLink]="['inicio']">Inicio</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                  <a class="nav-link" [routerLink]="['carrito']">Mi Carrito</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active" *ngIf="usuario">
+                  <a class="nav-link"  [routerLink]="['productos']">Productos</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active" *ngIf="usuario">
+                  <a class="nav-link" [routerLink]="['clientes']">Clientes</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active" *ngIf="usuario">
+                  <a class="nav-link" [routerLink]="['proveedores']">Proveedores</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active" *ngIf="usuario">
+                  <a class="nav-link" [routerLink]="['pedidos']">Compras</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active" *ngIf="usuario">
+                  <a class="nav-link" [routerLink]="['empleados']">Empleados</a>
+                </li>
+              </ul>
+          <button id="log" class="btn btn-outline-warning" [routerLink]="['login']" *ngIf="!usuarioAutenticado"
+              style="color: rgb(255, 215, 0)">Login</button>
+          <button id="log" class="btn btn-outline-warning"  *ngIf="usuarioAutenticado"> Salir</button>
+        </div>
+      </div>
+    </div>
+  </nav>

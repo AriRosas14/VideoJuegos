@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row justify-content-center">
+      <!-- Shopping Cart Column -->
+      <div class="col-md-8 col-lg-6">
+        <h2>Carrito de Compra</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of carrito; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ producto.nombre }}</td>
+              <td>${{ producto.precio }}</td>
+              <td>
+                <button class="btn btn-outline-danger" (click)="decrementarCantidad(producto)">-</button>
+                {{ producto.cantidad }}
+                <button class="btn btn-outline-success" (click)="incrementarCantidad(producto)">+</button>
+              </td>
+              <td>
+                <button class="btn btn-outline-danger" (click)="quitarDelCarrito(i)">Quitar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <p>Total: {{ calcularTotal() }}</p>
+  
+        <label for="metodoPago">Método de pago:</label>
+        <select name="metodoPago" id="metodoPago">
+          <option *ngFor="let opcion of opciones" [value]="opcion">{{ opcion }}</option>
+        </select>
+  
+        <br>
+        <button class="btn btn-outline-success">Finalizar compra</button>
+      </div>
+    </div>
+  </div>
