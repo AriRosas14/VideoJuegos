@@ -87,4 +87,12 @@ guardarEmpleado(empleado:any): Observable<any[]>{
   guardarUsuario(usuario:any): Observable<any[]>{
     return this.http.post<any[]>(`${this.apiUrl}/register`, usuario);
   }
+
+  getFacturas(): Observable<any[]>{
+    return this.http.get<any[]>(`${this.apiUrl}/registros`);  
+  }
+
+  logIn(usuario:any): Observable<any>{
+    return this.http.post<any>(`${this.apiUrl}/login`, usuario);
+  }
 }

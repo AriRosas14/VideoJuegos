@@ -16,15 +16,6 @@ export class LoginComponent {
   register!: FormGroup;
   formAccesso!: FormGroup;
   registroVisible: boolean = false;
-  loginForm: any = {
-    username: '',
-    password: ''
-  };
-  registerForm: any = {
-    name: '',
-    username: '',
-    password: ''
-  };
   
   constructor(
     private service: ProductosService,
@@ -59,18 +50,18 @@ export class LoginComponent {
     return null;
   }
 
-  logIn() {
-    this.http.post<any>('http://localhost:3000/login', this.loginForm)
-    .subscribe(response => {
-      if (response.success) {
-        // Autenticación exitosa
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/home']);
-      } else {
-        // Mostrar mensaje de error
-      }
-    });
-  }
+logIn() {
+    // Envía los datos del formulario de inicio de sesión al servicio
+  this.service.logIn(this.formAccesso.value).subscribe(response => {
+    if (response.success) {
+      // Si la autenticación es exitosa, navega a la página de inicio
+      this.router.navigate(['/inicio']);
+    } else {
+      // Muestra un mensaje de error en caso contrario
+      console.error('Error en el inicio de sesión:', response.message);
+   }
+  });
+}
 
   ngOnInit(): void {
   

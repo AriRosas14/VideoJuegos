@@ -1,0 +1,23 @@
+<!-- factura-list.component.html -->
+<div class="container">
+    <h2>Lista de Facturas</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID Factura</th>
+          <th>ID Cliente</th>
+          <th>Fecha</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let factura of facturas">
+          <td>{{ factura.id_factura }}</td>
+          <td>{{ factura.id_cliente }}</td>
+          <td>{{ factura.fecha }}</td>
+          <td>{{ factura.total }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
