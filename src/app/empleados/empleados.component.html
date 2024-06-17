@@ -1,58 +1,24 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="bg-light p-4">
-                <h2>Formulario de Registro de Empleados</h2>
-                <!-- Aquí puedes agregar tu formulario de registro usando componentes de Bootstrap -->
-                <form #clienteFomr="ngForm" [formGroup]="formulario" (ngSubmit)="guardarEmpleado()" class="container needs-validation" novalidate>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre" >
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
-                    </div>
+<h2>Empleados de la Tienda {{nombreTienda}}</h2>
 
-                    <div class="mb-3">
-                        <label for="ape1" class="form-label">Apellido Paterno:</label>
-                        <input type="text" class="form-control" id="ape1" name="ape1" formControlName="ape1">
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
-                    </div>
+<div *ngIf="empleados.length > 0">
+  <table class="table table-striped">
+    <thead>
+      <tr class="table-dark">
+        <th  scope="col">Nombre</th>
+        <th  scope="col">Apellido</th>
+        <th  scope="col">Cargo</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr *ngFor="let emp of empleados">
+        <td>{{ emp.nombre }}</td>
+        <td>{{ emp.apellido }}</td>
+        <td>{{ emp.cargo }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-                    <div class="mb-3">
-                        <label for="ape2" class="form-label">Apellido Materno:</label>
-                        <input type="text" class="form-control" id="ape2" name="ape2" formControlName="ape2">
-                        
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Telefono:</label>
-                        <input type="tel" class="form-control" id="telefono" name="telefono" formControlName="phone" >
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="sueldo" class="form-label">Sueldo:</label>
-                        <input type="number" class="form-control" id="sueldo" name="sueldo" formControlName="sueldo" >
-                        <div class="invalid-feedback">Este campo es obligatorio.</div>
-                    </div>
-                    <!-- Otros campos del formulario -->
-                    <button *ngIf="editMode" type="button" class="btn btn-primary" (click)="guardarCambios()">Guardar</button>
-                    <button *ngIf="!editMode" type="submit" class="btn btn-primary">Aceptar</button>                
-                </form>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="bg-light p-4">
-                <h2>Lista de Clientes</h2>
-                <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let empleado of empleados">
-                        {{empleado.nombre}}
-                        {{empleado.apellido1}}
-                        {{empleado.apellido2}}
-                        <br>
-                        <button class="btn btn-primary" (click)="editarEmpleado(empleado)">Editar</button>
-                        <button class="btn btn-danger" (click)="eliminarEmpleado(empleado)">Eliminar</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<div *ngIf="empleados.length === 0">
+  <p>No hay empleados registrados.</p>
 </div>

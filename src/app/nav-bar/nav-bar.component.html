@@ -10,17 +10,23 @@
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" [routerLink]="['inicio']">Inicio</a>
           </li>
-          <li class="nav-item" routerLinkActive="active">
+          <li class="nav-item" routerLinkActive="active" *ngIf="!usuarioAutenticado">
+            <a class="nav-link" [routerLink]="['seleccion-tienda']">Ir a la seleccion de tiendas</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="usuarioAutenticado">
             <a class="nav-link" [routerLink]="['carrito']">Mi Carrito</a>
           </li>
-          <li class="nav-item" routerLinkActive="active" *ngIf="usuarioAutenticado">
-            <a class="nav-link" [routerLink]="['productos']">Productos</a>
+          <li class="nav-item" routerLinkActive="active" *ngIf="esAdmin">
+            <a class="nav-link" [routerLink]="['videojuegos']">Productos</a>
           </li>
-          <li class="nav-item" routerLinkActive="active" *ngIf="usuarioAutenticado">
+          <li class="nav-item" routerLinkActive="active" *ngIf="esAdmin">
+            <a class="nav-link" [routerLink]="['altas-video']">Altas VideoJuegos</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="esAdmin">
             <a class="nav-link" [routerLink]="['empleados']">Empleados</a>
           </li>
-          <li class="nav-item" routerLinkActive="active" *ngIf="usuarioAutenticado">
-            <a class="nav-link" [routerLink]="['registros']">Registros</a>
+          <li class="nav-item" routerLinkActive="active" *ngIf="esAdmin">
+            <a class="nav-link" [routerLink]="['registros']">Ventas</a>
           </li>
         </ul>
         <button class="btn btn-outline-warning" [routerLink]="['login']" *ngIf="!usuarioAutenticado">

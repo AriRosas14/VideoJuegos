@@ -1,0 +1,17 @@
+h2{
+    text-align: center;
+    color: black;
+    font-size: 50px;
+}
+
+.grid-container{
+    display: grid;
+    gap: 50px 100px;
+    grid-template-columns: auto auto;
+}
+
+.grid-container > button{
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    background-color: #dc3545;
+    padding: 20px;
+}

@@ -1,0 +1,33 @@
+<h2>Listado de Productos</h2>
+
+<table class="table table-striped" >
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Plataforma</th>
+      <th>Categoría</th>
+      <th>Precio</th>
+      <th>Cantidad</th>
+      <th>Tienda</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of productos">
+      <td>{{ producto.titulo }}</td>
+      <td>{{ producto.plataforma }}</td>
+      <td>{{ producto.categoria }}</td>
+      <td>
+        <input type="number" [(ngModel)]="producto.nuevoPrecio" name="nuevoPrecio" required>
+      </td>
+      <td>
+        <input type="number" [(ngModel)]="producto.nuevaCantidad" name="nuevaCantidad" required>
+      </td>
+      <td>{{ producto.nombre_tienda }}</td>
+      <td>
+        <button class="btn btn-primary" (click)="actualizarProducto(producto.titulo, producto.nuevoPrecio || 0, producto.nuevaCantidad || 0)">Actualizar</button>
+        <button class="btn btn-danger" (click)="eliminarProducto(producto.titulo)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

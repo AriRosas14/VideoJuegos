@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductosService } from '../productos.service';
 
@@ -13,84 +13,52 @@ import { ProductosService } from '../productos.service';
 })
 export class LoginComponent {
   selectedTemplate: string | null = null;
-  register!: FormGroup;
-  formAccesso!: FormGroup;
-  registroVisible: boolean = false;
+  loginForm!: FormGroup;
+  showRegister = false;
+  error = '';
   
   constructor(
-    private service: ProductosService,
-    private http: HttpClient,
+    private authService: ProductosService,
+    private fb: FormBuilder,
     private router: Router
   ) {
-    //Formulario de Regisgtro
-    this.register = new FormGroup({
-      name: new FormControl('', Validators.required), // Agregar este control para el nombre
-      username: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmpassword: new FormControl('', [Validators.required, this.matchPassword.bind(this)]),
-    });
+
 
     //Formulario de inicio de sesion
-    this.formAccesso = new FormGroup({
-      username: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)])
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
 
   }
 
+  login() {
+    if (this.loginForm.valid) {
+      const { username, password } = this.loginForm.value;
+      this.authService.login(username, password).subscribe({
+        next: () => {
+          console.log('Login successful');
+          // Redirigir a la página principal o a otra página después del login
+          this.router.navigate(['inicio'])
 
-
-  //Verifica la contraseña que sean iguales
-  matchPassword(control: AbstractControl): { [key: string]: any } | null {
-    const password = this.register?.get('password')?.value;
-    const confirmpassword = control.value;
-    if (password !== confirmpassword) {
-      return { 'passwordMismatch': true };
+        },
+        error: err => {
+          console.error('Error during login:', err);
+          // Manejar errores de autenticación, por ejemplo, mostrar un mensaje al usuario
+          this.error = err.error.detail;
+        }
+      });
     }
-    return null;
-  }
 
-logIn() {
-    // Envía los datos del formulario de inicio de sesión al servicio
-  this.service.logIn(this.formAccesso.value).subscribe(response => {
-    if (response.success) {
-      // Si la autenticación es exitosa, navega a la página de inicio
-      this.router.navigate(['/inicio']);
-    } else {
-      // Muestra un mensaje de error en caso contrario
-      console.error('Error en el inicio de sesión:', response.message);
-   }
-  });
-}
-
-  ngOnInit(): void {
-  
-  }
- 
-  //Boton del formulario de registro
-  registrar() {
-    const datosUsuario = this.register.value;
-
-    this.service.guardarUsuario(datosUsuario).subscribe(
-      (respuesta) => {
-        console.log(respuesta);
-      },
-      (error) =>{
-        console.error(error);
-      }
-    )
-  }
-
-
-
-  //Muestra el formulario de inicio de sesion
-  showEmailTemplate() {
-    this.selectedTemplate = 'email';
-  }
-
-  showRegisterTemplate(){
-    this.selectedTemplate ='register';   
-  }
 
 }
 
+showRegisterTemplate() {
+  this.showRegister = true;
+}
+
+showLoginTemplate() {
+  this.showRegister = false;
+}
+
+}

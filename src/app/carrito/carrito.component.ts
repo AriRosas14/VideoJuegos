@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarritoService } from '../carrito.service';
+import { ProductosService } from '../productos.service';
 
 interface Producto {
   id: number;
@@ -14,72 +15,60 @@ interface Producto {
   styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit {
-  carrito: Producto[] = [];
-  client: any[] = [];
-  empleados: any[]= [];
-  opciones: string[] = ['Tarjeta', 'Efectivo', 'Transferencia'];
+  carrito: any[] = [];
 
-  constructor(private carritoService: CarritoService) {}
+  constructor(private carritoService: ProductosService) {}
 
   ngOnInit(): void {
-    this.carritoService.obtenerCarrito().subscribe((data) => {
-      this.carrito = data;
-    });
+    this.obtenerCarrito();
   }
 
-  decrementarCantidad(producto: Producto) {
-    this.carritoService.decrementarCantidad(producto);
+  obtenerCarrito(): void {
+    this.carritoService.obtenerCarrito().subscribe(
+      response => {
+        this.carrito = response.carrito;
+      },
+      error => {
+        console.error('Error al obtener el carrito:', error);
+      }
+    );
   }
 
-  incrementarCantidad(producto: Producto) {
-    this.carritoService.incrementarCantidad(producto);
+  eliminarProducto(nombreProducto: string): void {
+    this.carritoService.eliminarProductoDelCarrito(nombreProducto).subscribe(
+      response => {
+        console.log(response);  // Manejar la respuesta como desees
+        this.obtenerCarrito();  // Actualizar el contenido del carrito después de eliminar
+      },
+      error => {
+        console.error('Error al eliminar producto del carrito:', error);
+        // Manejar el error apropiadamente
+      }
+    );
   }
 
-  quitarDelCarrito(index: number) {
-    this.carritoService.quitarDelCarrito(index);
+  vaciarCarrito(): void {
+    this.carritoService.vaciarCarrito().subscribe(
+      () => {
+        this.carrito = [];
+        console.log('Carrito vaciado');
+      },
+      error => {
+        console.error('Error al vaciar el carrito:', error);
+      }
+    );
   }
 
-  calcularTotal() {
-    return this.carritoService.calcularTotal();
-  }
-
-  finalizarCompra() {
-    if (this.carrito.length === 0) {
-      console.error('El carrito está vacío. No se puede finalizar la compra.');
-      return;
-    }
-
-    const clienteSeleccionado = (document.getElementById('cliente') as HTMLSelectElement).value;
-    const metodoPagoSeleccionado = (document.getElementById('metodoPago') as HTMLSelectElement).value;
-    const empleadoSeleccionado = (document.getElementById('empleado') as HTMLSelectElement).value;
-
-    const fechaActual = new Date();
-    const fecha = `${fechaActual.getFullYear()}-${fechaActual.getMonth() + 1}-${fechaActual.getDate()}`;
-    const hora = `${fechaActual.getHours()}:${fechaActual.getMinutes()}:${fechaActual.getSeconds()}`;
-
-    const total = this.calcularTotal();
-
-    const compra = {
-      id_empleado: empleadoSeleccionado,
-      id_cliente: clienteSeleccionado,
-      metodo_pago: metodoPagoSeleccionado,
-      total_venta: total,
-      fecha: fecha,
-      hora: hora,
-      productos: this.carrito.map(producto => ({ id_producto: producto.id, cantidad: producto.cantidad }))
-    };
-
-    console.log('Datos de la compra:', compra);
-
-    // Aquí podrías realizar la lógica para enviar los datos al servidor
-    // this.service.finalizarCompra(compra).subscribe(
-    //   (respuesta) => {
-    //    console.log('Compra finalizada correctamente:', respuesta);
-    //    // Puedes realizar otras acciones después de finalizar la compra
-    //    },
-    //    (error) => {
-    //      console.error('Error al finalizar la compra:', error);
-    //    }
-    //  );
+  realizarCompra(): void {
+    this.carritoService.realizarCompra().subscribe(
+      () => {
+        this.carrito = [];
+        console.log('Compra realizada correctamente');
+        alert('Compra realizada correctamente');
+      },
+      error => {
+        console.error('Error al realizar la compra:', error);
+      }
+    );
   }
 }

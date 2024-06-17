@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductosService } from './productos.service';
 
 
 @Component({
@@ -8,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'puntoVenta';
+
+  constructor(private authService: ProductosService) {}
+
+  ngOnInit(): void {
+    this.authService.autenticarConTokenGuardado();
+  }
 }

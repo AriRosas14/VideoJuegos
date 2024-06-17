@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ProductosService } from '../productos.service';
 import { Observable } from 'rxjs';
+import { ProductoVideojuego } from '../prod';
 
 
 @Component({
@@ -11,33 +12,50 @@ import { Observable } from 'rxjs';
 })
 export class ProductosComponent implements OnInit {
   formulario: FormGroup;
-  prod: any[] = [];
+
+  producto: ProductoVideojuego = {
+    titulo: '',
+    plataforma: '',
+    categoria: '',
+    precio: 0,
+    cantidad: 0,
+    nombre_tienda: '' // Si es necesario para tu lógica
+    ,
+    direccion_tienda: ''
+  };
+
 
   ngOnInit(): void {
-    this.service.getProductos().subscribe(
-      (data) =>{
-        this.prod = data;
-      },
-      (error) => {
-        console.error(error);
-      })
+
   }
 
 
-  constructor(
-    private service: ProductosService
-  ){
-    this.formulario = new FormGroup({
-      nombre: new FormControl("", Validators.required),
-      categoria : new FormControl("", Validators.required),
-      cantidad : new FormControl("", Validators.required),
-      precio : new FormControl("",Validators.required),
-      descripcion : new FormControl("", Validators.required),
+
+  constructor(private fb: FormBuilder, private apiService: ProductosService) {
+    this.formulario = this.fb.group({
+      nombre: ['', Validators.required],
+      categoria: ['', Validators.required],
+      cantidad: [0, Validators.required],
+      precio: [0, Validators.required],
+      descripcion: ['']
     });
-}
+  }
 
-editarProducto(producto: any){}
+  onSubmit(): void {
+    this.apiService.createProducto(this.producto)
+      .subscribe(
+        (response) => {
+          console.log('Producto creado exitosamente:', response);
+          // Aquí podrías redirigir a otra página, mostrar un mensaje de éxito, etc.
+        },
+        (error) => {
+          console.error('Error al crear producto:', error);
+          // Maneja el error adecuadamente según tus necesidades
+        }
+      );
+  }
 
+/*
 eliminarProducto(product: any): void{
   console.log(product);
   if(product && product.id_producto){
@@ -69,10 +87,10 @@ eliminarProducto(product: any): void{
     console.error('El cliente no tiene un ID válido.');
   }
 }
-  
+  */
 
 
-guardarProducto(){
+/*guardarProducto(){
   const datosProducto = this.formulario.value;
 
   this.service.guardarProducto(datosProducto).subscribe(
@@ -83,7 +101,7 @@ guardarProducto(){
       console.error(error);
     }
   )
-}
+}*/
 
 }
 
